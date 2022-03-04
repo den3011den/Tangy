@@ -1,6 +1,44 @@
 ﻿@page "/learnBlazor/bindProp"
-<h3>BindProp</h3>
+
+<h3>Продукт</h3>
+    Наименование: @Product.Name<br />
+    Активность: @Product.IsActive<br />
+    Цена: @Product.Price<br />
+    Этот продукт: @(Product.IsActive?"Активен":"Не активен")<br />
+    Выбрано свойство: @selecttedProp <br/>
+    @if (!String.IsNullOrWhiteSpace(selecttedProp))
+    {
+        <p>Значение свойства: @Product.ProductProperties.FirstOrDefault(u=>u.Key==selecttedProp).Value</p>
+    }
+
+    <br/>
+    <br/>
+
+    Активность: <input type="checkbox" @bind-value="@Product.IsActive" checked = "@(Product.IsActive?"checked":null)"/><br />
+    Цена: <input type="number" @bind-value="@Product.Price" @bind-value:event="oninput" /><br />
+    Свойства продукта:
+    <select @bind="selecttedProp">
+        @foreach (var prop in Product.ProductProperties)
+        {
+            <option value = "@prop.Key">@prop.Key</option>
+        }
+    </select>
+    @*Цена: <input type="number" @bind="@Product.Price" @bind:event="oninput" />*@
 
 @code {
+    private string selecttedProp = "";
 
+    Tangy_Models.LearnBlazorModels.Demo_Product Product = new()
+        {
+            Id = 1,
+            Name = "Rose Candle",
+            IsActive = true,
+            Price = 10.99,
+            ProductProperties = new List<Tangy_Models.LearnBlazorModels.Demo_ProductProp>()
+            {
+                new Tangy_Models.LearnBlazorModels.Demo_ProductProp {Id = 1, Key = "Цвет", Value = "Чёрный"},
+                new Tangy_Models.LearnBlazorModels.Demo_ProductProp {Id = 2, Key = "Аромат", Value = "Жасмин"},
+                new Tangy_Models.LearnBlazorModels.Demo_ProductProp {Id = 3, Key = "Размер", Value = "20oz"}
+            }
+        };
 }
