@@ -2,7 +2,7 @@
 <h2 class="text-success">Продукт</h2>
 <div class="row">
     <div class="col-6 border P-3">
-        <h3 class="text-primary">Настройка продукта</h3><hr />
+        <h2 class="text-primary">Настройка продукта</h2><hr />
         <div>
             Активность:
             <input type="checkbox" @bind-value="@Product.IsActive" checked="@(Product.IsActive?"checked":null)" />
@@ -25,10 +25,9 @@
         @*Цена: <input type="number" @bind="@Product.Price" @bind:event="oninput" />*@
     </div>
 
-
     <div class="col-6 border p-3">
 
-        <h3 class="text-primary">Информация о продукте</h3><hr />
+        <h2 class="text-primary">Информация о продукте</h2><hr />
         Наименование: @Product.Name<br />
         Активность: @Product.IsActive<br />
         Цена: @Product.Price<br />
@@ -38,11 +37,42 @@
         {
             <p>Значение свойства: @Product.ProductProperties.FirstOrDefault(u=>u.Key==selecttedProp).Value</p>
         }
-
     </div>
-    <br />
-    <br />
 </div>
+<br />
+<br />
+
+<div class="col-12 pt-4">
+    <h2 class="text-primary">Список продуктов</h2><hr />
+    <table class="table table-striped">
+        <tbody>
+            @foreach(var prod in Products)
+            {
+                <tr>
+                    <td>
+                        <input type="text" @bind-value="prod.Name" @bind-value:event="oninput" />
+                    </td>
+                    <td>
+                        <input type="text" @bind-value="prod.Price" @bind-value:event="oninput" />
+                    </td>
+                    <td>
+                        <input type="checkbox" @bind-value="prod.IsActive"checked="@(prod.IsActive?"checked":null)" />
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <br />
+    <h2>Подробности о продукте</h2>
+                @foreach(var prod in Products)
+            {
+                <p>@prod.Name [@prod.Price] является @(prod.IsActive?"Активным":"Не активным")</p>
+            }
+
+</div>
+
 
 @code {
     private string selecttedProp = "";
@@ -50,7 +80,7 @@
     Demo_Product Product = new()
         {
             Id = 1,
-            Name = "Rose Candle",
+            Name = "Розовая свеча",
             IsActive = true,
             Price = 10.99,
             ProductProperties = new List<Demo_ProductProp>()
@@ -60,4 +90,37 @@
                 new Demo_ProductProp {Id = 3, Key = "Размер", Value = "20oz"}
             }
         };
+    List<Demo_Product> Products = new();
+
+    protected override void OnInitialized()
+    {
+
+        Products.Add(new()
+            {
+                Id = 1,
+                Name = "Полночное пламя",
+                IsActive = false,
+                Price = 15.99,
+                ProductProperties = new()
+                {
+                    new Demo_ProductProp { Id = 1, Key = "Аромат", Value = "Роза" },
+                    new Demo_ProductProp { Id = 2, Key = "Размер", Value = "20oz" },
+                    new Demo_ProductProp { Id = 3, Key = "Цвет", Value = "Пурпурный" }
+                }
+            });
+
+        Products.Add(new()
+            {
+                Id = 2,
+                Name = "Цветущая лилия",
+                IsActive = true,
+                Price = 18.99,
+                ProductProperties = new()
+                {
+                    new Demo_ProductProp { Id = 1, Key = "Аромат", Value = "Лилия" },
+                    new Demo_ProductProp { Id = 2, Key = "Размер", Value = "18oz" },
+                    new Demo_ProductProp { Id = 3, Key = "Цвет", Value = "Белый" }
+                }
+            });
+    }
 }
