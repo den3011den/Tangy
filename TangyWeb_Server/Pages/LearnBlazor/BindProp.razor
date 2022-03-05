@@ -1,44 +1,63 @@
 ﻿@page "/learnBlazor/bindProp"
+<h2 class="text-success">Продукт</h2>
+<div class="row">
+    <div class="col-6 border P-3">
+        <h3 class="text-primary">Настройка продукта</h3><hr />
+        <div>
+            Активность:
+            <input type="checkbox" @bind-value="@Product.IsActive" checked="@(Product.IsActive?"checked":null)" />
+        </div>
+        <br />
+        <div>
+            Цена:
+            <input type="number" @bind-value="@Product.Price" @bind-value:event="oninput" />
+            <br />
+        </div>
+        <div>
+            Свойства продукта:
+            <select @bind="selecttedProp">
+                @foreach (var prop in Product.ProductProperties)
+                {
+                    <option value="@prop.Key">@prop.Key</option>
+                }
+            </select>
+        </div>
+        @*Цена: <input type="number" @bind="@Product.Price" @bind:event="oninput" />*@
+    </div>
 
-<h3>Продукт</h3>
-    Наименование: @Product.Name<br />
-    Активность: @Product.IsActive<br />
-    Цена: @Product.Price<br />
-    Этот продукт: @(Product.IsActive?"Активен":"Не активен")<br />
-    Выбрано свойство: @selecttedProp <br/>
-    @if (!String.IsNullOrWhiteSpace(selecttedProp))
-    {
-        <p>Значение свойства: @Product.ProductProperties.FirstOrDefault(u=>u.Key==selecttedProp).Value</p>
-    }
 
-    <br/>
-    <br/>
+    <div class="col-6 border p-3">
 
-    Активность: <input type="checkbox" @bind-value="@Product.IsActive" checked = "@(Product.IsActive?"checked":null)"/><br />
-    Цена: <input type="number" @bind-value="@Product.Price" @bind-value:event="oninput" /><br />
-    Свойства продукта:
-    <select @bind="selecttedProp">
-        @foreach (var prop in Product.ProductProperties)
+        <h3 class="text-primary">Информация о продукте</h3><hr />
+        Наименование: @Product.Name<br />
+        Активность: @Product.IsActive<br />
+        Цена: @Product.Price<br />
+        Этот продукт: @(Product.IsActive?"Активен":"Не активен")<br />
+        Выбрано свойство: @selecttedProp <br />
+        @if (!String.IsNullOrWhiteSpace(selecttedProp))
         {
-            <option value = "@prop.Key">@prop.Key</option>
+            <p>Значение свойства: @Product.ProductProperties.FirstOrDefault(u=>u.Key==selecttedProp).Value</p>
         }
-    </select>
-    @*Цена: <input type="number" @bind="@Product.Price" @bind:event="oninput" />*@
+
+    </div>
+    <br />
+    <br />
+</div>
 
 @code {
     private string selecttedProp = "";
 
-    Tangy_Models.LearnBlazorModels.Demo_Product Product = new()
+    Demo_Product Product = new()
         {
             Id = 1,
             Name = "Rose Candle",
             IsActive = true,
             Price = 10.99,
-            ProductProperties = new List<Tangy_Models.LearnBlazorModels.Demo_ProductProp>()
+            ProductProperties = new List<Demo_ProductProp>()
             {
-                new Tangy_Models.LearnBlazorModels.Demo_ProductProp {Id = 1, Key = "Цвет", Value = "Чёрный"},
-                new Tangy_Models.LearnBlazorModels.Demo_ProductProp {Id = 2, Key = "Аромат", Value = "Жасмин"},
-                new Tangy_Models.LearnBlazorModels.Demo_ProductProp {Id = 3, Key = "Размер", Value = "20oz"}
+                new Demo_ProductProp {Id = 1, Key = "Цвет", Value = "Чёрный"},
+                new Demo_ProductProp {Id = 2, Key = "Аромат", Value = "Жасмин"},
+                new Demo_ProductProp {Id = 3, Key = "Размер", Value = "20oz"}
             }
         };
 }
