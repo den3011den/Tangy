@@ -1,0 +1,63 @@
+﻿@page "/learnBlazor/demoproduct"
+
+<h2 class="text-primary">DemoProduct</h2>
+<div class="border p-2 mt-2" style="background-color:azure">
+    <div class="row">
+        @foreach (var prod in Products)
+        {
+            <div class="bg-light border m-1 col-5">
+                <h4 class="text-secondary">Продукт - @prod.Id</h4>
+                Наименование - @prod.Name<br />
+                Показать свойства :
+                <input type="checkbox" @bind-value="prod.IsActive" checked="@(prod.IsActive?"checked":null)" />
+                @if (prod.IsActive)
+                {
+                    @foreach (var prodProp in prod.ProductProperties)
+                    {
+                        <p>@prodProp.Key - @prodProp.Value</p>
+                    }
+                }
+                <br />
+                <input type="button" class="btn btn-danger" style="width:100px;" value="Удалить" />
+                <input type="button" class="btn btn-success" style="width:100px;" value="Изменить" />
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    List<Demo_Product> Products = new();
+
+    protected override void OnInitialized()
+    {
+
+        Products.Add(new()
+            {
+                Id = 1,
+                Name = "Полночное пламя",
+                IsActive = false,
+                Price = 15.99,
+                ProductProperties = new()
+                {
+                    new Demo_ProductProp { Id = 1, Key = "Аромат", Value = "Роза" },
+                    new Demo_ProductProp { Id = 2, Key = "Размер", Value = "20oz" },
+                    new Demo_ProductProp { Id = 3, Key = "Цвет", Value = "Пурпурный" }
+                }
+            });
+
+        Products.Add(new()
+            {
+                Id = 2,
+                Name = "Цветущая лилия",
+                IsActive = true,
+                Price = 18.99,
+                ProductProperties = new()
+                {
+                    new Demo_ProductProp { Id = 1, Key = "Аромат", Value = "Лилия" },
+                    new Demo_ProductProp { Id = 2, Key = "Размер", Value = "18oz" },
+                    new Demo_ProductProp { Id = 3, Key = "Цвет", Value = "Белый" }
+                }
+            });
+    }
+
+}
