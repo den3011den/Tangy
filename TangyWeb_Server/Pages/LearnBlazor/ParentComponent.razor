@@ -2,13 +2,21 @@
 
 <h3>ParentComponent</h3>
 
-<_ChildComponent Title="Этот заголовок передан в качестве параметра из родительского компонента">
-    Рендеринг фрагмента из Родителя
+<_ChildComponent OnButtonClick="ShowMessage" Title="Этот заголовок передан в качестве параметра из родительского компонента">
+    <ChildContent>Рендеринг фрагмента из Родителя</ChildContent>
+    <DangerChildContent>Рендеринг danger фрагмента из Родителя</DangerChildContent>
 </_ChildComponent>
 
-<_ChildComponent Title="Этот второй дочерний компонент">
-</_ChildComponent>
+<p><b>@messageText</b></p>
+
+@*<_ChildComponent Title="Этот второй дочерний компонент">
+</_ChildComponent>*@
 
 @code {
+    public string messageText = "";
+    private void ShowMessage()
+    {
+        messageText = "Кнопка нажата из Дочернего компонента";
+    }
 
 }

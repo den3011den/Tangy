@@ -1,15 +1,23 @@
 ﻿<div>
     <div class="alert alert-info">@Title</div>
     <div class="alert alert-success">
-        @if(ChildContent!=null)
+        @if (DangerChildContent != null)
         {
-            <span>@ChildContent</span>
+            <span>@DangerChildContent</span>
         }
         else
         {
-            <span>Отображается пустой RenderFragment</span>
+            @if (ChildContent != null)
+            {
+                <span>@ChildContent</span>
+            }
+            else
+            {
+                <span>Отображается пустой RenderFragment</span>
+            }
         }
     </div>
+    <button class="btn btn-danger" @onclick="OnButtonClick">Кнопка для нажимания</button>
 </div>
 
 @code {
@@ -18,5 +26,11 @@
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment DangerChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback OnButtonClick { get; set; }
 
 }
