@@ -1,11 +1,15 @@
 ﻿@page "/learnBlazor/demoproduct"
 
 <h2 class="text-primary">DemoProduct</h2>
+<p>Всего в избранном: @SelectedFavouriteCount</p>
+<p>Последний выбраный продукт: @LastSelectedProductName</p>
 <div class="border p-2 mt-2" style="background-color:azure">
     <div class="row">
         @foreach (var prod in Products)
         {
-            <_IndividualProduct Product="prod">
+            <_IndividualProduct Product="prod"
+            OnFavoriteUpdated="FavouriteCountUpdate"
+            OnLastSelectedProductChange="SelectedProductUpdate">
             </_IndividualProduct>
         }
     </div>
@@ -13,6 +17,8 @@
 
 @code {
     List<Demo_Product> Products = new();
+    private int SelectedFavouriteCount { get; set; } = 0;
+    private string LastSelectedProductName { get; set; }
 
     protected override void OnInitialized()
     {
@@ -45,5 +51,21 @@
                 }
             });
     }
+    protected void FavouriteCountUpdate(bool isSelected)
+    {
+        if(isSelected)
+        {
+            SelectedFavouriteCount++;
+        }
+        else
+        {
+            SelectedFavouriteCount--;
+        }
+    }
 
+    protected void SelectedProductUpdate(string productName)
+    {
+        LastSelectedProductName = productName;
+    }
+    
 }
