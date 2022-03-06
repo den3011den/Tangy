@@ -2,6 +2,7 @@
     <h4 class="text-secondary">Продукт - @Product.Id</h4>
     <input type="checkbox" @onchange="FavoriteUpdated" /> Добавить в избранное<br />
     Наименование - @Product.Name<br />
+    <p>RenderFragment из Родителя - @FirstFragment @SecondFragment</p>
     Показать свойства :
     <input type="checkbox" @bind-value="Product.IsActive" checked="@(Product.IsActive?"checked":null)" />
     @if (Product.IsActive)
@@ -26,6 +27,13 @@
 
     [Parameter]
     public EventCallback<string> OnLastSelectedProductChange { get; set; }
+
+    [Parameter]
+    public RenderFragment FirstFragment { get; set; }
+
+    [Parameter]
+    public RenderFragment SecondFragment { get; set; }
+
 
     private async Task FavoriteUpdated(ChangeEventArgs e)
     {
