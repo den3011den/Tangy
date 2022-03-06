@@ -1,22 +1,21 @@
 ﻿@page "/learnBlazor/parentComponent"
 
 <h3>ParentComponent</h3>
-
-<_ChildComponent OnButtonClick="ShowMessage" Title="Этот заголовок передан в качестве параметра из родительского компонента"
-MessageForGrandChild="Это сообщение из твоего дедушки (ParentComponent)">
-    <ChildContent>Рендеринг фрагмента из Родителя</ChildContent>
-    <DangerChildContent>Рендеринг danger фрагмента из Родителя</DangerChildContent>
-</_ChildComponent>
-
+<CascadingValue Value="@MassageForGrandChild">
+    <_ChildComponent OnButtonClick="ShowMessage" Title="Этот заголовок передан в качестве параметра из родительского компонента">
+        <ChildContent>Рендеринг фрагмента из Родителя</ChildContent>
+        <DangerChildContent>Рендеринг danger фрагмента из Родителя</DangerChildContent>
+    </_ChildComponent>
+</CascadingValue>
 <p><b>@messageText</b></p>
 
 <_AnotherChildComponent placeholder="Placeholder из Родителя"></_AnotherChildComponent>
 
 @*<_ChildComponent Title="Этот второй дочерний компонент">
-</_ChildComponent>*@
+    </_ChildComponent>*@
 
 @code {
-
+    public string MassageForGrandChild = "Это сообщение из твоего дедушки (ParentComponent)";
     public string messageText = "";
     private void ShowMessage()
     {
