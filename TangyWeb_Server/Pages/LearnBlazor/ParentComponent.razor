@@ -1,11 +1,13 @@
 ﻿@page "/learnBlazor/parentComponent"
 
 <h3>ParentComponent</h3>
-<CascadingValue Value="@MassageForGrandChild">
+<CascadingValue Value="@MassageForGrandChild" Name="message">
+    <CascadingValue Value="@LuckyNumber" Name="luckyNumber">
     <_ChildComponent OnButtonClick="ShowMessage" Title="Этот заголовок передан в качестве параметра из родительского компонента">
         <ChildContent>Рендеринг фрагмента из Родителя</ChildContent>
         <DangerChildContent>Рендеринг danger фрагмента из Родителя</DangerChildContent>
     </_ChildComponent>
+    </CascadingValue>
 </CascadingValue>
 <p><b>@messageText</b></p>
 
@@ -16,6 +18,7 @@
 
 @code {
     public string MassageForGrandChild = "Это сообщение из твоего дедушки (ParentComponent)";
+    public string LuckyNumber = "7";
     public string messageText = "";
     private void ShowMessage()
     {
