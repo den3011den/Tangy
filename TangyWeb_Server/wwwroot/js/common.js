@@ -5,5 +5,22 @@
     if (type === "error") {
         toastr.error(message, 'Операция неудачна', 5000 )
     }
+}
 
+
+window.ShowSwal = (type, message) => {
+    if (type === "success") {
+        Swal.fire(
+            'Уведомление об успехе!',
+            message,
+            'success'
+        )
+    }
+    if (type === "error") {
+        Swal.fire(
+            'Уведомление о НЕ успехе!',
+            message,
+            'error'
+        )
+    }
 }

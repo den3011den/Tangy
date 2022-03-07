@@ -4,13 +4,19 @@
 <h3>BlazorJs</h3>
 
 <div class="row">
-    <button class="btn btn-secondary" @onclick="TestConfirmBox">Тестовая кнопка подтверждения</button>
+    <button class="btn btn-secondary m-2" style="width:200px;" @onclick="TestConfirmBox">Тестовая кнопка подтверждения</button>
 </div>
 
 <div class="row">
-    <button class="btn btn-success" @onclick="ToastrSuccess">Toastr Успех</button>
-    <button class="btn btn-danger" @onclick="ToastrFailure">Toastr НЕ Успех</button>
+    <button class="btn btn-success m-2" style="width:200px;" @onclick="ToastrSuccess">Toastr Успех</button>
+    <button class="btn btn-danger m-2" style="width:200px;" @onclick="ToastrFailure">Toastr НЕ Успех</button>
 </div>
+<br />
+<div class="row">
+    <button class="btn btn-success m-2" style="width:200px;" @onclick="SweetAlertSuccess">SweetAlert Успех</button>
+    <button class="btn btn-danger m-2" style="width:200px;" @onclick="SweetAlertFailure">SweetAlert НЕ Успех</button>
+</div>
+
 
 <div class="row">
     @if(ConfirmResult)
@@ -41,6 +47,16 @@
     private async Task ToastrFailure()
     {
         await _JsRuntime.ToastrError("Операция НЕ успешна");
+    }
+
+    private async Task SweetAlertSuccess()
+    {
+        await _JsRuntime.InvokeVoidAsync("ShowSwal", "success", "Задача успешно выполнена");
+    }
+
+    private async Task SweetAlertFailure()
+    {
+        await _JsRuntime.InvokeVoidAsync("ShowSwal", "error", "Задача НЕ выполнена");
     }
 
 
