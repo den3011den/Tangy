@@ -9,11 +9,19 @@
 
 @code {
 
+    [Parameter]
+    public int CountValue { get; set; }
+
     List<string> EventType = new List<string>();
 
     protected override void OnInitialized()
     {
         EventType.Add("Вызов Child - OnInitialized()");
+    }
+
+    protected override void OnParametersSet()
+    {
+        EventType.Add("Вызов Child - OnParametersSet()");
     }
 
 }
