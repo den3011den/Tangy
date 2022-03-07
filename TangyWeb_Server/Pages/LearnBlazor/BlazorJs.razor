@@ -8,6 +8,11 @@
 </div>
 
 <div class="row">
+    <button class="btn btn-success" @onclick="ToastrSuccess">Toastr Успех</button>
+    <button class="btn btn-danger" @onclick="ToastrFailure">Toastr НЕ Успех</button>
+</div>
+
+<div class="row">
     @if(ConfirmResult)
     {
         <p>Подтверждение было выполнено</p>
@@ -27,4 +32,16 @@
     {
         ConfirmResult = await _JsRuntime.InvokeAsync<bool>("confirm", ConfirmMessage);
     }
+
+    private async Task ToastrSuccess()
+    {
+        await _JsRuntime.ToastrSuccess("Операция успешна");
+    }
+
+    private async Task ToastrFailure()
+    {
+        await _JsRuntime.ToastrError("Операция НЕ успешна");
+    }
+
+
 }
