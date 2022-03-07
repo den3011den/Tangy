@@ -8,7 +8,8 @@
 <h3>LearnRouting</h3>
 <h4>Parameter 1: @Parameter1 </h4>
 <h4>Parameter 2: @Parameter2 </h4>
-<a href="learnRouting?Param1=Tandy&Param2=Blazor" class="btn btn-primary">Перейти к запросу с параметрами</a>
+@*<a href="learnRouting?Param1=Tandy&Param2=Blazor" class="btn btn-primary">Перейти к запросу с параметрами</a>*@
+<button @onclick="NavigateToQueryParam" class="btn btn-primary">Перейти к запросу с параметрами</button>
 <button class="btn btn-success" @onclick="LoadParameters">Загрузить Параметры</button>
 <br />
 <h3>Параметры строки запросов: </h3>
@@ -33,6 +34,11 @@
         var queryParam = System.Web.HttpUtility.ParseQueryString(absoluteUri.Query);
         Param1 = queryParam["Param1"];
         Param2 = queryParam["Param2"];
+    }
+
+    private void NavigateToQueryParam()
+    {
+        _NavigationManager.NavigateTo("learnRouting?Param1=Tandy&Param2=Blazor");
     }
 
 }
