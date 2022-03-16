@@ -1,0 +1,71 @@
+﻿@page "/category"
+
+@inject ICategoryRepository _categoryRepository
+
+<div class="row mt-4">
+    <div class="col-6">
+        <h4 class="card-title text-primary">Список категорий</h4>
+    </div>
+    <div class= "col-4 offset-2">
+        <a href="category/create" class="btn btn-primary form-control">Добавить новую категорию</a>
+    </div>
+    <div class="col-12">
+        @if(Categories.Any())
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Наименование</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var objCat in Categories)
+                    {
+                        <tr>
+                            <td>
+                                @objCat.Name
+                            </td>
+                            <td>
+                                <NavLink href="@($"category/edit/{objCat.Id}")" class="btn btn-primary">Редактировать</NavLink>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            if (IsLoading)
+            {
+                //отображение gif загрузки
+                <div class="text-center">
+                    <img src="/images/loading.gif">
+                </div>
+                 
+            }
+            else
+            {
+                //нет записей
+                <p>Записей не найдено</p>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
+    public bool IsLoading { get; set; } = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(LoadCategories);
+    }
+
+    private void LoadCategories()
+    {
+        Categories = _categoryRepository.GetAll();
+        IsLoading = false;
+    }
+
+}
