@@ -1,0 +1,128 @@
+﻿@page "/product/create"
+@page "/product/edit/{id:int}"
+@inject ICategoryRepository _categoryRepository
+@inject IProductRepository _productRepository
+@inject NavigationManager _navigationManager
+
+<div class="row my-2">
+    <h3 class="card-title text-primary mb-3 ml-3">@Title продукт</h3>
+
+    <div class="col-md-10">
+        @if (IsLoading)
+        {
+             <div class="text-center">
+                <img src="/images/loading.gif">
+              </div>
+        }
+        else{
+        <EditForm Model="Product" OnValidSubmit="UpsertProduct">
+            <DataAnnotationsValidator/>
+            @*<ValidationSummary/>*@
+            <div class="form-group">
+                <label>Наименование</label>
+                <InputText @bind-Value="Product.Name" class="form-control"></InputText> 
+                <ValidationMessage For="()=>Product.Name"></ValidationMessage>
+            </div>
+             <div class="form-group">
+                <label>Цвет</label>
+                <InputText @bind-Value="Product.Color" class="form-control"></InputText> 
+                <ValidationMessage For="()=>Product.Color"></ValidationMessage>
+            </div>
+            
+             <div class="form-group">
+                <label>Описание</label>
+                <InputTextArea @bind-Value="Product.Description" class="form-control"></InputTextArea>
+                <ValidationMessage For="()=>Product.Description"></ValidationMessage>
+            </div>
+
+            <div class="row pt-3">
+                <div class="form-group col-6">
+                <div class="form-check">
+                    <InputCheckbox @bind-Value="Product.ShopFavorites" class="form-check-input"></InputCheckbox>
+                    <label class="form-check-label">Является избранным магазина</label>
+                </div>
+                </div>
+                <div class="form-group col-6">
+                <div class="form-check">
+                    <InputCheckbox @bind-Value="Product.CustomerFavorites" class="form-check-input"></InputCheckbox>
+                    <label class="form-check-label">Является избранным покупателя</label>
+                </div>
+                </div>
+                 <div class="form-group">
+                     <label>Category</label>
+                    <InputSelect @bind-Value="Product.CategoryId" class="form-select">
+                        <option value="0" disabled="disabled" selected>--Выберите категорию--</option> 
+                            @foreach(var cat in Categories)
+                            {
+                                <option value="@cat.Id">@cat.Name</option>
+                            }
+
+                    </InputSelect>
+                     <ValidationMessage For="()=>Product.CategoryId"></ValidationMessage>
+                </div>
+
+            </div>
+
+              
+            <div class="form-group py-2">
+                <button class="btn btn-primary">@Title</button>
+                <NavLink href="product" class="btn btn-secondary">Назад к списку</NavLink>
+            </div>
+        </EditForm>
+        }
+    </div>
+
+</div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private ProductDTO Product { get; set; } = new();
+    private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
+    private string Title { get; set; } = "Создать";
+
+    public bool IsLoading { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadProduct();
+        }
+    }
+
+    private async Task LoadProduct()
+    {
+        IsLoading = true;
+        StateHasChanged();
+        Categories = await _categoryRepository.GetAll();
+        if (Id!=0)
+        { //update
+            Title = "Редактировать";
+            Product = await _productRepository.Get(Id);
+        }
+        else
+        {
+             Title = "Создать";
+        }
+
+        IsLoading = false;
+        StateHasChanged();
+    }
+
+
+    private async Task UpsertProduct()
+    {
+        if (Product.Id == 0)
+        {  // создание
+            await _productRepository.Create(Product);
+        }
+        else
+        { // редактирование
+            await _productRepository.Update(Product);
+        }
+        _navigationManager.NavigateTo("product");
+    }
+}
