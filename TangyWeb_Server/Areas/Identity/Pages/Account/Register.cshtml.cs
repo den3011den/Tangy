@@ -109,17 +109,7 @@ namespace TangyWeb_Server.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
 
-            if (!await _roleManager.RoleExistsAsync(SD.Role_Admin))
-            {
-                //await _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin));
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
-            }
-
-            if (!await _roleManager.RoleExistsAsync(SD.Role_Customer))
-            {
-                //await _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin));
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Customer)).GetAwaiter().GetResult();
-            }
+         
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -139,7 +129,7 @@ namespace TangyWeb_Server.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
 
-                     await _userManager.AddToRoleAsync(user, SD.Role_Admin);
+                     await _userManager.AddToRoleAsync(user, SD.Role_Customer);
                      _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
