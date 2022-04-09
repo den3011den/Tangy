@@ -1,4 +1,5 @@
-﻿@inherits LayoutComponentBase
+﻿@using TangyWeb_Server.Pages.Shared
+@inherits LayoutComponentBase
 
 <PageTitle>TangyWeb_Server</PageTitle>
 
@@ -9,8 +10,7 @@
 
     <main>
         <div class="top-row px-4">
-            <TangyWeb_Server.Pages.Shared.LoginDisplay></TangyWeb_Server.Pages.Shared.LoginDisplay>
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <LoginDisplay></LoginDisplay>            
         </div>
 
         <article class="content px-4">
