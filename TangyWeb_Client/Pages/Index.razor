@@ -1,6 +1,14 @@
 ﻿@page "/"
 @inject IProductService _productService
 
+<AuthorizeView>
+    <Authorized>
+        <p>Добро пожаловать, @context.User.Identity.Name</p>
+    </Authorized>
+    <NotAuthorized>
+        <p>Вход не выполнен!</p>
+    </NotAuthorized>
+</AuthorizeView>
 
 @if (IsProcessing)
 {
