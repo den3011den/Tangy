@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Web;
 using Tangy_Models;
 using TangyWeb_Client.Service.IService;
 
@@ -16,15 +17,26 @@ namespace TangyWeb_Client.Pages.Authentication
         [Inject]
         public NavigationManager _navigationManager { get; set; }
 
+        public string ReturnUrl { get; set; }
+
         private async Task LoginUser()
         {
             ShowSignInErrors = false;
             IsProcessing = true;
             var result = await _authService.Login(SignInRequest);
             if (result.IsAuthSuccessful)
-            {
-                // регистрация успешна
-                _navigationManager.NavigateTo("/", forceLoad: true);
+            {                                
+                var absoluteUri = new Uri(_navigationManager.Uri);
+                var queryParam = HttpUtility.ParseQueryString(absoluteUri.Query);
+                ReturnUrl = queryParam["returnUrl"];
+                if (string.IsNullOrEmpty(ReturnUrl))
+                {
+                    _navigationManager.NavigateTo("/");
+                }
+                else
+                {
+                    _navigationManager.NavigateTo("/" + ReturnUrl);
+                }
             }
             else
             {
