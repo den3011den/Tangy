@@ -65,7 +65,7 @@ namespace TangyWeb_Client.Service
             }
             else
             {
-                return new SignUpResponseDTO() { IsRegistrationSuccessful = false };
+                return new SignUpResponseDTO() { IsRegistrationSuccessful = false, Errors=result.Errors };
             }
         }
     }
