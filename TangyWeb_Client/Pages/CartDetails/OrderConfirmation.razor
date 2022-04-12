@@ -1,0 +1,65 @@
+﻿@page "/OrderConfirmation"
+
+@inject ILocalStorageService _localStorage
+@inject IOrderService _orderService
+
+<div class="conteiner">
+    @if (IsProcessing)
+    {
+            <div style="position:fixed;top:50%;left:50%;margin-top:-50px;margin-left:-100px;">
+                <img src="images/ajax-loader.gif" />
+            </div>
+    }
+    else
+    {
+
+        @if (Order.OrderHeader.Status == SD.Status_Confirmed)
+        {
+            <div class="row mt-4 pt-4">
+             <div class="col-10 offset-1 text-center">
+                 <h2 class="text-warning">Заказ оплачен</h2>
+                 <p>Ваш заказ успешно размещён с номером : @Order.OrderHeader.Id</p>
+             </div>
+             <div class="col-8 offset-2">
+                 <img src="/images/confirmation.jpg" width="100%" style="border-radius:30px;"  />
+             </div>
+            </div>
+        }
+        else
+        {
+            <div class="row mt-4 pt-4">
+             <div class="col-10 offset-1 text-center">
+                 <h2 class="text-danger">Проблема с заказом</h2>
+                 <p>С оплатой Вашего заказа произошла проблема. Свяжитесь с нами, указав номер заказа : @Order.OrderHeader.Id</p>
+             </div>
+             <div class="col-8 offset-2">
+                 <img src="/images/confirmation.jpg" width="100%" style="border-radius:30px;"  />
+             </div>
+            </div>
+            
+        }
+    }
+
+</div>
+
+@code {
+    private bool IsProcessing { get; set; } = false;
+    private OrderDTO Order { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsProcessing = true;
+
+        Order = await _localStorage.GetItemAsync<OrderDTO>(SD.Local_OrderDetails);
+        // проверка оплаты и обновление статуса заказа
+
+        var updatedOrder = await _orderService.MarkPaymentSuccessful(Order.OrderHeader);
+        if (updatedOrder.Status == SD.Status_Confirmed)
+        {
+            await _localStorage.RemoveItemAsync(SD.ShoppingCart);
+            await _localStorage.RemoveItemAsync(SD.Local_OrderDetails);
+        }
+
+        IsProcessing = false;
+    }
+}
