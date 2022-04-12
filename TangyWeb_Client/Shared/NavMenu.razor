@@ -20,27 +20,48 @@
             </ul>
             <form class="d-flex">
                 <ul class="navbar-nav">
-                    <li class="nav-item p-0">
-                        <NavLink class="nav-link" href="register">
-                            <span class="p-2">
-                                Регистрация
-                            </span>
-                        </NavLink>
-                    </li>
-                    <li class="nav-item p-0">
-                        <NavLink class="nav-link" href="login">
-                            <span class="p-2">
-                                Войти
-                            </span>
-                        </NavLink>
-                    </li>
+                    <AuthorizeView>
+                        <Authorized>
+                            <li class="nav-item p-0">
+                                <NavLink class="nav-link" href="#">
+                                    <span class="p-2">
+                                        Добрый день, @context.User.Identity.Name
+                                    </span>
+                                </NavLink>
+                            </li>
+                            <li class="nav-item p-0">
+                                <NavLink class="nav-link" href="logout">
+                                    <span class="p-2">
+                                        Выйти
+                                    </span>
+                                </NavLink>
+                            </li>
+                        </Authorized>
+                        <NotAuthorized>
+                            <li class="nav-item p-0">
+                                <NavLink class="nav-link" href="register">
+                                    <span class="p-2">
+                                        Регистрация
+                                    </span>
+                                </NavLink>
+                            </li>
+                            <li class="nav-item p-0">
+                                <NavLink class="nav-link" href="login">
+                                    <span class="p-2">
+                                        Войти
+                                    </span>
+                                </NavLink>
+                            </li>
+                        </NotAuthorized>
+                    </AuthorizeView>
+
                 </ul>
             </form>
         </div>
     </div>
 </nav>
 
-@code{
+@code {
     protected override void OnInitialized()
     {
         _cartService.OnChange += StateHasChanged;

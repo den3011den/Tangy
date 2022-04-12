@@ -5,7 +5,7 @@ namespace TangyWeb_Client.Service.IService
     public interface IAuthenticationService
     {
         Task<SignUpResponseDTO> RegisterUser(SignUpRequestDTO signUpRequestDTO);
-        Task<SignInResponseDTO> Login(SignUpRequestDTO signInRequestDTO);
+        Task<SignInResponseDTO> Login(SignInRequestDTO signInRequestDTO);
         Task Logout();
     }
 }

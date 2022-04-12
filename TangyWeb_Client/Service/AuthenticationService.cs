@@ -23,7 +23,7 @@ namespace TangyWeb_Client.Service
             _authStateProvider = authStateProvider;
         }
 
-        public async Task<SignInResponseDTO> Login(SignUpRequestDTO signInRequest)
+        public async Task<SignInResponseDTO> Login(SignInRequestDTO signInRequest)
         {
             var content = JsonConvert.SerializeObject(signInRequest);
             var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
