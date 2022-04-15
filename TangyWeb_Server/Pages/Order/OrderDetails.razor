@@ -161,7 +161,7 @@ else
                         </ul>
                          @if (Order.OrderHeader.Status == SD.Status_Confirmed)
                          {
-                            <button class="btn btn-success form-control my-1">Доставить заказ</button>
+                            <button @onclick="ShipOrder" class="btn btn-success form-control my-1">Доставить заказ</button>
                          }
                          @if (Order.OrderHeader.Status == SD.Status_Confirmed || Order.OrderHeader.Status == SD.Status_Pending)
                          {
@@ -206,4 +206,21 @@ else
         Order.OrderHeader = OrderHeaderDTO;
         _jsRuntime.ToastrSuccess("Заказ успешно обновлён");
     }
+
+    private async Task ShipOrder()
+    {
+
+        if (string.IsNullOrEmpty(Order.OrderHeader.Carrier) || string.IsNullOrEmpty(Order.OrderHeader.Tracking))
+        {
+            _jsRuntime.ToastrError("Укажите Перевозчика и Номер отслеживания");
+            return;
+        }
+
+        Order.OrderHeader.Status = SD.Status_Shipped;
+
+        var OrderHeaderDTO = await _orderRepository.UpdateHeader(Order.OrderHeader);
+        Order.OrderHeader = OrderHeaderDTO;
+        _jsRuntime.ToastrSuccess("Заказ доставлен");
+    }
+
 }
