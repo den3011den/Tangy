@@ -8,14 +8,15 @@
     @if (OrderHeaders.Any())
     {
         <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                    Data="OrderHeaders" TItem="OrderHeaderDTO" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+                    Data="OrderHeaders" TItem="OrderHeaderDTO" LogicalFilterOperator="LogicalFilterOperator.Or">
             <Columns>
-                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="Id" Filterable="false" Title="Номер" Frozen="true" Width="70px" />
-                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="Name" Title="Имя" Frozen="true" Width="140px" />
-                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="PhoneNumber" Title="Телефон" Width="140px" />
-                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="Email" Title="Почта" Width="140px" />
-                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="OrderTotal" Title="Итого" Width="140px" />
-                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="OrderDate" Title="Дата заказа" FormatString="{0:d}" Width="140px" />
+                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="Id" Filterable="false" Title="Номер" Frozen="true" />
+                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="Name" Title="Имя" Frozen="true" />
+                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="PhoneNumber" Title="Телефон" />
+                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="Email" Title="Почта" />
+                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="OrderTotal" Title="Итого" />
+                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="OrderDate" Title="Дата заказа" FormatString="{0:d}" />
+                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="Status" Title="Статус" />
                 <RadzenDataGridColumn TItem="OrderHeaderDTO" Title="Детали">
                     <Template Context="data">
                         <RadzenButton Click="(args => OrderDetails(data.Id))" Text="Детали" ButtonStyle="ButtonStyle.Success"></RadzenButton>
