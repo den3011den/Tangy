@@ -2,6 +2,7 @@
 @inject IOrderRepository _orderRepository
 @inject IJSRuntime _jsRuntime
 @using Tangy_Common
+@attribute [Authorize]
 
 @if (IsLoading)
 {    
@@ -165,7 +166,7 @@ else
                          }
                          @if (Order.OrderHeader.Status == SD.Status_Confirmed || Order.OrderHeader.Status == SD.Status_Pending)
                          {
-                            <button class="btn btn-danger form-control my-1">Отменить заказ</button>
+                            <button @onclick="CancelOrder" class="btn btn-danger form-control my-1">Отменить заказ</button>
                          }
                     </div>
                 </div>
@@ -221,6 +222,21 @@ else
         var OrderHeaderDTO = await _orderRepository.UpdateHeader(Order.OrderHeader);
         Order.OrderHeader = OrderHeaderDTO;
         _jsRuntime.ToastrSuccess("Заказ доставлен");
+    }
+
+    private async Task CancelOrder()
+    {
+        var OrderHeader = await _orderRepository.CancelOrder(Order.OrderHeader.Id);      
+        if (Order.OrderHeader.Status == SD.Status_Cancelled)
+        {
+            _jsRuntime.ToastrSuccess("Заказ успешно отменён");    
+        }
+        
+        if (Order.OrderHeader.Status == SD.Status_Refunded)
+        {
+            _jsRuntime.ToastrSuccess("Заказ успешно отменён. Оплата возвращена покупателю");    
+        }
+
     }
 
 }

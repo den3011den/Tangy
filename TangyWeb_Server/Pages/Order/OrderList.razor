@@ -1,6 +1,7 @@
 ﻿@page "/orderList"
 @inject IOrderRepository _orderRepository
 @inject NavigationManager _navigationManager
+@attribute [Authorize]
 
 <div>
     <h4 class="card-title text-info">Список заказов</h4>
