@@ -227,15 +227,22 @@ else
     private async Task CancelOrder()
     {
         var OrderHeader = await _orderRepository.CancelOrder(Order.OrderHeader.Id);      
-        if (Order.OrderHeader.Status == SD.Status_Cancelled)
-        {
-            _jsRuntime.ToastrSuccess("Заказ успешно отменён");    
-        }
-        
+         StateHasChanged();
+        //if (Order.OrderHeader.Status == SD.Status_Cancelled)
+        //{
+        //    _jsRuntime.ToastrSuccess("Заказ успешно отменён");    
+        //}
+
         if (Order.OrderHeader.Status == SD.Status_Refunded)
         {
             _jsRuntime.ToastrSuccess("Заказ успешно отменён. Оплата возвращена покупателю");    
         }
+        else
+        {
+            
+          _jsRuntime.ToastrSuccess("Заказ успешно отменён");  
+        }
+         StateHasChanged();
 
     }
 

@@ -36,7 +36,7 @@ namespace Tangy_Business.Repository
             if (orderHeader.Status == SD.Status_Pending)
             {
                 orderHeader.Status = SD.Status_Cancelled;
-                _db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
             }
             if (orderHeader.Status == SD.Status_Confirmed)
             {
